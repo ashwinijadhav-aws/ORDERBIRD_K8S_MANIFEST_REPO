@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: spring-boot-ingress
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /success
+        pathType: Prefix
+        backend:
+          service:
+            name: spring-boot-app-service
+            port:
+              number: 80
+      - path: /stress
+        pathType: Prefix
+        backend:
+          service:
+            name: spring-boot-app-service
+            port:
+              number: 80
+

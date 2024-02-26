@@ -1,0 +1,174 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: postgres-persistent-volumne
+  labels:
+    app: postgres-persistent-volumne
+spec:
+  capacity:
+    storage: 8Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy:
+  awsElasticBlockStore:
+    volumeID: vol-0fafe9b771ef75a3a
+    fsType: ext4
+
+
+
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-persistent-volumne-claim
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: headlessservice-postgres
+  labels:
+    app: headlessservice-postgres
+spec:
+  selector:
+    app: postgres-pod
+  ports:
+  - port: 5432
+    targetPort: 5432
+  clusterIP: None
+
+
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-statefulset
+spec:
+  serviceName: headlessservice-postgres
+  replicas: 3
+  selector:
+    matchLabels:
+      app: postgres-pod
+  template:
+    metadata:
+      labels:
+        app: postgres-pod
+    spec:
+      securityContext:
+        fsGroup: 1001
+      containers:
+      - name: postgres-container
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - /pre-stop.sh
+        image: docker.io/bitnami/postgresql-repmgr:11.12.0-debian-10-r44
+        securityContext:
+          runAsUser: 1001
+        env:
+        - name: POSTGRESDB_USER
+          value: "postgres"
+        - name: POSTGRESDB_ROOT_PASSWORD
+          value: "postgres_password"
+        - name: POSTGRES_PASSWORD
+          value: "postgres_password"
+        - name: POSTGRESDB_DATABASE
+          value: "postgres"
+        - name: POSTGRES_HOST_AUTH_METHOD
+          value: "trust"
+        - name: BITNAMI_DEBUG
+          value: "false"
+        - name: POSTGRESQL_VOLUME_DIR
+          value: "/pvclaim/dbdata"
+        - name: PGDATA
+          value: "/bitnami/postgresql/data"
+        - name: MY_POD_NAME
+          # Repmgr configuration
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: REPMGR_UPGRADE_EXTENSION
+          value: "no"
+        - name: REPMGR_PGHBA_TRUST_ALL
+          value: "no"
+        - name: REPMGR_MOUNTED_CONF_DIR
+          value: "/bitnami/repmgr/conf"
+        - name: REPMGR_NAMESPACE
+          value: "default"
+        - name: REPMGR_PARTNER_NODES
+          value: postgres-statefulset-0.headlessservice-postgres.$(REPMGR_NAMESPACE).svc.cluster.local,postgres-statefulset-1.headlessservice-postgres.$(REPMGR_NAMESPACE).svc.cluster.local,postgres-statefulset-2.headlessservice-postgres.$(REPMGR_NAMESPACE).svc.cluster.local
+        - name: REPMGR_PRIMARY_HOST
+          value: "postgres-statefulset-0.headlessservice-postgres.$(REPMGR_NAMESPACE).svc.cluster.local"
+        - name: REPMGR_NODE_NAME
+          value: "$(MY_POD_NAME)"
+        - name: REPMGR_NODE_NETWORK_NAME
+          value: "$(MY_POD_NAME).headlessservice-postgres.$(REPMGR_NAMESPACE).svc.cluster.local"
+        - name: REPMGR_LOG_LEVEL
+          value: "NOTICE"
+        - name: REPMGR_CONNECT_TIMEOUT
+          value: "5"
+        - name: REPMGR_RECONNECT_ATTEMPTS
+          value: "3"
+        - name: REPMGR_RECONNECT_INTERVAL
+          value: "5"
+        - name: REPMGR_USERNAME
+          value: "repmgr"
+        - name: REPMGR_PASSWORD
+          value: "repmgr_password"
+        - name: REPMGR_DATABASE
+          value: "repmgr"
+        ports:
+        - containerPort: 5432
+          name: postgres-port
+        livenessProbe:
+          exec:
+            command:
+            - bash
+            - -ec
+            - 'PGPASSWORD=$POSTGRES_PASSWORD psql -w -U "postgres" -d "postgres"  -h 127.0.0.1 -c "SELECT 1"'
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 6
+        readinessProbe:
+          exec:
+            command:
+            - bash
+            - -ec
+            - 'PGPASSWORD=$POSTGRES_PASSWORD psql -w -U "postgres" -d "postgres"  -h 127.0.0.1 -c "SELECT 1"'
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 6
+        volumeMounts:
+        - name: postgres-persistent-volumne-claim
+          mountPath: /pvclaim/dbdata
+        - name: hooks-scripts
+          mountPath: /pre-stop.sh
+          subPath: pre-stop.sh
+      volumes:
+      - name: hooks-scripts
+        configMap:
+          name: postgres-configmap
+          defaultMode: 0755
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-persistent-volumne-claim
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 8Gi
