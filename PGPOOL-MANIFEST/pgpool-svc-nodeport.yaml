@@ -9,6 +9,6 @@ spec:
     port: 5432
     targetPort: postgresql
     protocol: TCP
-    nodePort: 32000
+    #nodePort: 32000
   selector:
     app: pgpool-pod
