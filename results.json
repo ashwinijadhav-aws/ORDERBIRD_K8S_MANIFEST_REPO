@@ -1,0 +1,96 @@
+{
+  "SchemaVersion": 2,
+  "ArtifactName": "ashwinijadhavaws/orderbird-app-prod-image:4",
+  "ArtifactType": "container_image",
+  "Metadata": {
+    "OS": {
+      "Family": "alpine",
+      "Name": "3.19.1",
+      "EOSL": true
+    },
+    "ImageID": "sha256:5fc0a5aa7d1818944672f880607c7bd6468785668ddbcd2ef338c73232b9ceef",
+    "DiffIDs": [
+      "sha256:d4fc045c9e3a848011de66f34b81f052d4f2c15a17bb196d637e526349601820",
+      "sha256:59751df2f35230429b0d81178318cf04d544bcfc14e416953caa83b0562c13f4",
+      "sha256:71595a75a9b277ff7a0622ed6d4b510c92c7646d739ab8e38beffcd72896f141",
+      "sha256:cf08d6456633eb1963ffdc30b72b1d2a193805ea44ac7d39aa6b4341b0b0462b"
+    ],
+    "RepoTags": [
+      "ashwinijadhavaws/orderbird-app-prod-image:4"
+    ],
+    "ImageConfig": {
+      "architecture": "amd64",
+      "container": "ab0acb119fe4de4498168dc769bad7e48b1e1da07dd58baf395e862a2e30cbc7",
+      "created": "2024-02-27T13:56:04.038354088Z",
+      "docker_version": "20.10.25",
+      "history": [
+        {
+          "created": "2024-01-27T00:30:48Z",
+          "created_by": "/bin/sh -c #(nop) ADD file:37a76ec18f9887751cd8473744917d08b7431fc4085097bb6a09d81b41775473 in / "
+        },
+        {
+          "created": "2024-01-27T00:30:48Z",
+          "created_by": "/bin/sh -c #(nop)  CMD [\"/bin/sh\"]",
+          "empty_layer": true
+        },
+        {
+          "created": "2024-02-27T13:48:04Z",
+          "created_by": "/bin/sh -c apk --no-cache add openjdk11-jre"
+        },
+        {
+          "created": "2024-02-27T13:48:06Z",
+          "created_by": "/bin/sh -c #(nop) WORKDIR /app",
+          "empty_layer": true
+        },
+        {
+          "created": "2024-02-27T13:56:02Z",
+          "created_by": "/bin/sh -c #(nop) COPY file:5788f7c6e2c85beb01e79d8f29979a20c9801fe623d99c3e5d4bcd6d7aea403c in /app "
+        },
+        {
+          "created": "2024-02-27T13:56:03Z",
+          "created_by": "/bin/sh -c #(nop)  EXPOSE 8080",
+          "empty_layer": true
+        },
+        {
+          "created": "2024-02-27T13:56:04Z",
+          "created_by": "/bin/sh -c #(nop)  CMD [\"java\" \"-jar\" \"spring-boot-web.jar\"]",
+          "empty_layer": true
+        }
+      ],
+      "os": "linux",
+      "rootfs": {
+        "type": "layers",
+        "diff_ids": [
+          "sha256:d4fc045c9e3a848011de66f34b81f052d4f2c15a17bb196d637e526349601820",
+          "sha256:59751df2f35230429b0d81178318cf04d544bcfc14e416953caa83b0562c13f4",
+          "sha256:71595a75a9b277ff7a0622ed6d4b510c92c7646d739ab8e38beffcd72896f141",
+          "sha256:cf08d6456633eb1963ffdc30b72b1d2a193805ea44ac7d39aa6b4341b0b0462b"
+        ]
+      },
+      "config": {
+        "Cmd": [
+          "java",
+          "-jar",
+          "spring-boot-web.jar"
+        ],
+        "Env": [
+          "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+        ],
+        "Image": "sha256:d607c4c43a41dc4a182ef37d47d05cfb00fe97d82edd6790821d19feae93e71c",
+        "WorkingDir": "/app"
+      }
+    }
+  },
+  "Results": [
+    {
+      "Target": "ashwinijadhavaws/orderbird-app-prod-image:4 (alpine 3.19.1)",
+      "Class": "os-pkgs",
+      "Type": "alpine"
+    },
+    {
+      "Target": "Java",
+      "Class": "lang-pkgs",
+      "Type": "jar"
+    }
+  ]
+}
