@@ -1,0 +1,6 @@
+projectKey=com.example:spring-boot-demo
+serverUrl=http://18.199.107.248:9000
+serverVersion=9.4.0.54424
+dashboardUrl=http://18.199.107.248:9000/dashboard?id=com.example%3Aspring-boot-demo
+ceTaskId=AY3vjFtDnDuapJwIlMqa
+ceTaskUrl=http://18.199.107.248:9000/api/ce/task?id=AY3vjFtDnDuapJwIlMqa
