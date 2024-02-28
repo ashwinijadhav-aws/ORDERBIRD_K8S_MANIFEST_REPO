@@ -17,3 +17,5 @@
 `kubectl expose service grafana --type=NodePort --target-port=3000 --name=grafana-ext`
 
 `kubectl expose service prometheus-kube-state-metrics --type=NodePort --target-port=8080 --name=prometheus-kube-state-metrics-ext`
+
+kubectl expose service argocd-server --type=NodePort --target-port=80--name=argocd-server-ext
