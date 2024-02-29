@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: spring-boot-app-container
-        image: ashwinijadhavaws/orderbird-app-prod-image:27
+        image: ashwinijadhavaws/orderbird-app-prod-image:29
         ports:
         - containerPort: 8080
         resources:
