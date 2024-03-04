@@ -243,10 +243,10 @@ spec:
           privileged: true
   volumeClaimTemplates:
   - metadata:
-      name: elasticsearch-logging
+      name: elasticstack-persistent-volumne-claim
     spec:
-      storageClassName: cloud-ssd
-      accessModes: ["ReadWriteOnce"]
+      accessModes:
+      - ReadWriteOnce
       resources:
         requests:
           storage: 8Gi

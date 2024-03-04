@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: elasticstack-persistent-volumne
+  labels:
+    app: elasticstack-persistent-volumne
+spec:
+  capacity:
+    storage: 8Gi
+  accessModes:
+  - ReadWriteOnce
+  persistentVolumeReclaimPolicy:
+  awsElasticBlockStore:
+    volumeID: vol-00680480adac4b37a
+    fsType: ext4
