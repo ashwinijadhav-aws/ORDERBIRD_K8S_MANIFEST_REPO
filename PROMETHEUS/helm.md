@@ -10,7 +10,9 @@
 
 ## Install helm 
 
-`helm install prometheus prometheus-community/prometheus`
+## helm install prometheus prometheus-community/prometheus
+
+helm install prometheus prometheus-community/prometheus -f prometheus.yml
 
 ## Expose Prometheus Service
 

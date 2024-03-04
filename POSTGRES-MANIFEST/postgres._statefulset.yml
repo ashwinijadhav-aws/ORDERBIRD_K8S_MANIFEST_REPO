@@ -4,7 +4,7 @@ metadata:
   name: postgres-statefulset
 spec:
   serviceName: headlessservice-postgres
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: postgres-pod
