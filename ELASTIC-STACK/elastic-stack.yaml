@@ -225,7 +225,7 @@ spec:
           name: transport
           protocol: TCP
         volumeMounts:
-        - name: elasticsearch-logging
+        - name: elasticstack-persistent-volumne-claim
           mountPath: /data
         env:
         - name: "NAMESPACE"
