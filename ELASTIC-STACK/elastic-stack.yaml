@@ -215,6 +215,7 @@ spec:
           # need more cpu upon initialization, therefore burstable class
           limits:
             cpu: 1000m
+            memory: "2Gi" # Adjust as needed
           requests:
             cpu: 100m
         ports:
