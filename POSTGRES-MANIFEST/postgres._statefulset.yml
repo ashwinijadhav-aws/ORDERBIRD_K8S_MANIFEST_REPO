@@ -22,7 +22,7 @@ spec:
             exec:
               command:
               - /pre-stop.sh
-        image: docker.io/bitnami/postgresql-repmgr:11.12.0-debian-10-r44
+        image: zgsm/bitnami-postgresql-repmgr:17.6.0-debian-12-r2
         securityContext:
           runAsUser: 1001
         env:

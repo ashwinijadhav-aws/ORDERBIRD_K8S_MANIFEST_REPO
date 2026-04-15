@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: spring-boot-app-service
 spec:
-  #type: NodePort # commented this so that service is deployed as clusterIP as we are using ingress to access externally
+  type: NodePort # commented this so that service is deployed as clusterIP as we are using ingress to access externally
   selector:
     app: spring-boot-app-pod
   ports:
