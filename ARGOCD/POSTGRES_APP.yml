@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1 # ArgoCD Application resource
 kind: Application               # Kind of resource
 metadata:                        # Metadata section                         
-  name: orderbird-pgpool-app        # App name
+  name: orderbird-postgres-app        # App name
   namespace: default             # Must exist in ArgoCD namespace
 spec:
   project: default        # Assigns app to the frontend-team Project
   source:
     repoURL: https://github.com/ashwinijadhav-aws/ORDERBIRD_K8S_MANIFEST_REPO.git  # Git repo
     targetRevision: main        # Branch to watch
-    path: PGPOOL-MANIFEST    # Path in repo with manifests
+    path: POSTGRES-MANIFEST    # Path in repo with manifests
   destination:
     server: https://kubernetes.default.svc # Target cluster, run `argocd cluster list` to see
     namespace: default          # Namespace inside that cluster
