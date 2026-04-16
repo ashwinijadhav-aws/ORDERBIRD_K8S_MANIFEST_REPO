@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1 # ArgoCD Application resource
 kind: Application               # Kind of resource
 metadata:                        # Metadata section                         
   name: orderbird-pgpool-app        # App name
-  namespace: default             # Must exist in ArgoCD namespace
+  namespace: argocd             # Must exist in ArgoCD namespace -ArgoCD only watches the argocd namespace by default.
 spec:
   project: default        # Assigns app to the frontend-team Project
   source:
